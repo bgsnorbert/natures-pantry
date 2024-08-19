@@ -38,9 +38,6 @@ jobs:
       - name: Build Assets
         run: npm run build
 
-      - name: Clear Laravel Cache
-        run: php artisan optimize:clear
-
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.13.15
         with:
