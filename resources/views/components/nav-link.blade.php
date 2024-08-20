@@ -1,5 +1,5 @@
 <!-- anchor or button -->
-
+<!--  -->
 @props(['active' => false, 'type' => 'a'])
 
 @if($type == 'a')
