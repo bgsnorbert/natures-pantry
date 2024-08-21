@@ -44,3 +44,6 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "natures-pantry"
           heroku_email: "bgsnorbi88@gmail.com"
+
+      - name: Run migrations
+        run: php artisan migrate --force
