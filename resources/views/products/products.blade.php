@@ -16,4 +16,7 @@
         </div>
     </a>
     @endforeach
+    <div class="">
+        {{$products->links()}}
+    </div>
 </x-layout>
