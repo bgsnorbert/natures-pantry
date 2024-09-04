@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\LoginUserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,3 +26,11 @@ Route::get('/products/{product}/edit', [ProductController::class, 'edit']);
 Route::post('/products', [ProductController::class, 'store']);
 Route::patch('/products/{product}', [ProductController::class, 'update']);
 Route::delete('/products/{product}', [ProductController::class, 'delete']);
+
+
+Route::get('/register', [RegisteredUserController::class, 'create']);
+Route::post('/register', [RegisteredUserController::class, 'store']);
+
+Route::get('/login', [LoginUserController::class, 'create']);
+Route::post('/login', [LoginUserController::class, 'store']);
+Route::post('/logout', [LoginUserController::class, 'destroy']);

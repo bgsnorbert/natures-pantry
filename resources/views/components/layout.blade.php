@@ -36,6 +36,19 @@
                         <x-nav-link href="/products" :active="request()->is('products')">
                             Products
                         </x-nav-link>
+                        @guest
+                        <x-nav-link href="/login" :active="request()->is('login')">
+                            Login
+                        </x-nav-link>
+                        @endguest
+                        @auth
+                        <form method="POST" action="/logout">
+                            @csrf
+                            <x-button type="submit">
+                                Log out
+                            </x-button>
+                        </form>
+                        @endauth
                     </ul>
                 </div>
             </div>

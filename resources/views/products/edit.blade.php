@@ -15,30 +15,20 @@
     <form method="POST" action="/products/{{$product->id}}" class="max-w-md mx-auto">
         @csrf
         @method('PATCH')
-        <div class="relative z-0 w-full mb-5 group">
-            <x-form-input type="text" name="name" id="floating_text" placeholder=" " value="{{$product->name}}" required>
-            </x-form-input>
+        <x-form-field>
+            <x-form-input type="text" name="name" id="floating_text" placeholder=" " value="{{$product->name}}" required />
             <x-form-label for="floating_text">
                 Name
             </x-form-label>
-            <div class="text-red-600 italic text-sm font-semibold">
-                @error('name')
-                {{$message}}
-                @enderror
-            </div>
-        </div>
-        <div class="relative z-0 w-full mb-5 group">
-            <x-form-input type="number" name="price" id="floating_price" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" placeholder=" " value="{{$product->price}}" required>
-            </x-form-input>
+            <x-form-error name="name" />
+        </x-form-field>
+        <x-form-field>
+            <x-form-input type="number" name="price" id="floating_price" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" placeholder=" " value="{{$product->price}}" required />
             <x-form-label for="floating_price">
                 Price (number with up to 2 decimal places)
             </x-form-label>
-            <div class="text-red-600 italic text-sm font-semibold">
-                @error('price')
-                {{$message}}
-                @enderror
-            </div>
-        </div>
+            <x-form-error name="price" />
+        </x-form-field>
 
         <x-link href="/products">Cancel</x-link>
         <x-button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 dark:focus:ring-blue-800">Update</x-button>

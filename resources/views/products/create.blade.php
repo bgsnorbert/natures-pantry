@@ -6,13 +6,13 @@
 
     <form method="POST" action="/products" class="max-w-md mx-auto">
         @csrf
-        <div class="relative z-0 w-full mb-5 group">
+        <x-form-field>
             <x-form-input type="text" name="name" id="name" placeholder=" " required>
             </x-form-input>
             <x-form-label for="name">
                 Name
             </x-form-label>
-        </div>
+        </x-form-field>
         <div class="relative z-0 w-full mb-5 group">
             <x-form-input type="number" name="price" id="price" pattern="[0-9]+([\.,][0-9]+)?" step="0.01" placeholder=" " required>
             </x-form-input>
