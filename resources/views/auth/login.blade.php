@@ -6,11 +6,12 @@
     <form method="POST" action="/login" class="max-w-md mx-auto">
         @csrf
         <x-form-field>
-            <x-form-input type="email" name="email" id="email" placeholder=" " required>
+            <x-form-input type="email" name="email" id="email" placeholder=" " required :value="old('email')">
             </x-form-input>
             <x-form-label for="email">
                 Email
             </x-form-label>
+            <x-form-error name="email" />
         </x-form-field>
         <x-form-field>
             <x-form-input type="password" name="password" id="password" placeholder=" " required>

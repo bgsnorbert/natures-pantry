@@ -2,17 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::latest()->paginate(4);
-        return view('products.products', [
-            'products' => $products
-        ]);
+        $categories = Category::all();
+        $selectedCategories = request()->input('categories', []);
+
+        $query = Product::with('category');
+
+        if (!empty($selectedCategories)) {
+            $query->whereIn('category_id', $selectedCategories);
+        }
+
+
+        $products = $query->paginate(10);
+        return view('products.products', compact('products', 'categories', 'selectedCategories'));
     }
 
     public function show(Product $product)
@@ -22,7 +33,8 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('products.create');
+        $categories = Category::all();
+        return view('products.create', compact('categories'));
     }
 
     public function store()
@@ -30,17 +42,35 @@ class ProductController extends Controller
         // authorize
         request()->validate([
             'name' => ['required', 'max:255'],
-            'price' => ['required']
+            'price' => ['required'],
+            'category_id' => ['nullable', 'exists:categories,id'],
+            'new_category' => ['nullable', 'max:255']
         ]);
+
+        $category_id = request()->category_id;
+
+        if (!request()->category_id && request()->filled('new_category')) {
+            // Create the new category
+            $category = Category::create([
+                'name' => request()->new_category,
+            ]);
+
+            // Use the new category's ID for the product
+            $category_id = $category->id;
+        }
         Product::create([
             'name' => request('name'),
             'price' => request('price'),
+            'category_id' => $category_id,
         ]);
         return redirect('/products');
     }
 
     public function edit(Product $product)
     {
+        if (Auth::guest()) {
+            return redirect('/login');
+        }
         return view('products.edit', ['product' => $product]);
     }
 
