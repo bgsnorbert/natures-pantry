@@ -10,4 +10,9 @@
     </div>
     <div class="mt-5">Name: {{$product->name}} </div>
     <div class="">Price: {{$product->price}}$ </div>
+    <form method="POST" action="{{ route('cart.add', $product->id) }}">
+        @csrf
+        <input type="number" name="quantity" value="1" min="1">
+        <button type="submit">Add to Cart</button>
+    </form>
 </x-layout>

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\ValidationException;
 
 class LoginUserController extends Controller
@@ -33,13 +36,6 @@ class LoginUserController extends Controller
         request()->session()->regenerate();
 
         // redirect
-        return redirect('/');
-    }
-
-    public function destroy()
-    {
-        Auth::logout();
-
         return redirect('/');
     }
 }

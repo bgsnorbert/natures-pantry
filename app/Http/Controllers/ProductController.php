@@ -33,12 +33,27 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = Category::all();
-        return view('products.create', compact('categories'));
+        if (Auth::guest()) {
+            return redirect('/login');
+        }
+
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            $categories = Category::all();
+            return view('products.create', compact('categories'));
+        }
+
+        return redirect('/');
     }
 
     public function store()
     {
+        if (Auth::guest()) {
+            return redirect('/login');
+        }
+
+        if (Auth::check() && Auth::user()->role === 'user') {
+            return redirect('/');
+        }
         // authorize
         request()->validate([
             'name' => ['required', 'max:255'],
@@ -71,7 +86,11 @@ class ProductController extends Controller
         if (Auth::guest()) {
             return redirect('/login');
         }
-        return view('products.edit', ['product' => $product]);
+
+        if (Auth::check() && Auth::user()->role === 'admin') {
+            return view('products.edit', ['product' => $product]);
+        }
+        return redirect('/');
     }
 
     public function update(Product $product)

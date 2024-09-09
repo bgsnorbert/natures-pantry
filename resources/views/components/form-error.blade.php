@@ -2,6 +2,6 @@
 
 @error($name)
 <div class="text-red-600 italic text-sm font-semibold">
-    {{$message}}
+    {{$slot}} {{$message}}
 </div>
 @enderror
