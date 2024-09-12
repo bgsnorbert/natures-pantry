@@ -10,7 +10,7 @@
 
 <body>
     <header>
-        <nav class="bg-white border-gray-200 dark:bg-gray-900">
+        <nav class="bg-white border-gray-200 dark:bg-gray-900 shadow-[rgba(208,211,219,1)_0px_1px_1px_0px]">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="{{ Vite::asset('resources/images/logo.png') }}" class="h-8" alt="Nature's Pantry logo" />
@@ -42,12 +42,34 @@
                         </x-nav-link>
                         @endguest
                         @auth
-                        <form method="POST" action="/logout">
-                            @csrf
-                            <x-button type="submit">
-                                Log out
-                            </x-button>
-                        </form>
+                        <li>
+                            <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">{{ Auth::user()->last_name }}<svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                                </svg></button>
+
+                            <div id="dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                                    @if (Auth::user()->role === 'admin')
+                                    <li>
+                                        <a href="/admin" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                                    </li>
+                                    @else
+                                    <li>
+                                        <a href="/orders" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Orders</a>
+                                    </li>
+                                    @endif
+                                    <li>
+                                        <a href="/settings" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                                    </li>
+                                </ul>
+                                <div class="py-1">
+                                    <form method="POST" action="/logout">
+                                        @csrf
+                                        <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white w-full text-start">Sign out</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
                         @endauth
                     </ul>
                 </div>

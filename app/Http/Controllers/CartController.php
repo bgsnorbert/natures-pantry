@@ -20,7 +20,7 @@ class CartController extends Controller
     public function add(Request $request, Product $product)
     {
         // Validate the quantity input
-        $validated = $request->validate([
+        $request->validate([
             'quantity' => 'required|integer|min:1',
         ]);
 

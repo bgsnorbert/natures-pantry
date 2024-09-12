@@ -19,7 +19,9 @@
 
     <div class="flex justify-between">
         <div class="my-5  ">Products page</div>
-        <x-link href="/products/create">New</x-link>
+        @if (Auth::check() && Auth::user()->role === 'admin')
+        <x-link href="/admin/products/create">New</x-link>
+        @endif
     </div>
     @foreach ($products as $product)
     <a href="/products/{{$product['id']}}" class="block px-4 py-6 border border-gray-200 rounded-lg mb-4">

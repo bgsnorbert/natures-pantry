@@ -13,6 +13,9 @@ class LoginUserController extends Controller
 {
     public function create()
     {
+        if (Auth::check()) {
+            return redirect('/');
+        }
         return view('auth.login');
     }
 
@@ -36,6 +39,13 @@ class LoginUserController extends Controller
         request()->session()->regenerate();
 
         // redirect
+        return redirect('/');
+    }
+
+    public function destroy()
+    {
+        Auth::logout();
+
         return redirect('/');
     }
 }

@@ -43,7 +43,7 @@
         </tbody>
     </table>
 
-    <a class="mt-4 block" href="{{ route('cart.checkout') }}">Proceed to Checkout</a>
+    <a class="mt-4 block" href="/checkout">Proceed to Checkout</a>
     @else
     <p>Your cart is empty.</p>
     @endif

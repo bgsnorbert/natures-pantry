@@ -22,7 +22,7 @@ class ProductController extends Controller
         }
 
 
-        $products = $query->paginate(10);
+        $products = $query->paginate(2);
         return view('products.products', compact('products', 'categories', 'selectedCategories'));
     }
 
@@ -31,86 +31,86 @@ class ProductController extends Controller
         return view('products.product', ['product' => $product]);
     }
 
-    public function create()
-    {
-        if (Auth::guest()) {
-            return redirect('/login');
-        }
+    // public function create()
+    // {
+    //     if (Auth::guest()) {
+    //         return redirect('/login');
+    //     }
 
-        if (Auth::check() && Auth::user()->role === 'admin') {
-            $categories = Category::all();
-            return view('products.create', compact('categories'));
-        }
+    //     if (Auth::check() && Auth::user()->role === 'admin') {
+    //         $categories = Category::all();
+    //         return view('products.create', compact('categories'));
+    //     }
 
-        return redirect('/');
-    }
+    //     return redirect('/');
+    // }
 
-    public function store()
-    {
-        if (Auth::guest()) {
-            return redirect('/login');
-        }
+    // public function store()
+    // {
+    //     if (Auth::guest()) {
+    //         return redirect('/login');
+    //     }
 
-        if (Auth::check() && Auth::user()->role === 'user') {
-            return redirect('/');
-        }
-        // authorize
-        request()->validate([
-            'name' => ['required', 'max:255'],
-            'price' => ['required'],
-            'category_id' => ['nullable', 'exists:categories,id'],
-            'new_category' => ['nullable', 'max:255']
-        ]);
+    //     if (Auth::check() && Auth::user()->role === 'user') {
+    //         return redirect('/');
+    //     }
+    //     // authorize
+    //     request()->validate([
+    //         'name' => ['required', 'max:255'],
+    //         'price' => ['required'],
+    //         'category_id' => ['nullable', 'exists:categories,id'],
+    //         'new_category' => ['nullable', 'max:255']
+    //     ]);
 
-        $category_id = request()->category_id;
+    //     $category_id = request()->category_id;
 
-        if (!request()->category_id && request()->filled('new_category')) {
-            // Create the new category
-            $category = Category::create([
-                'name' => request()->new_category,
-            ]);
+    //     if (!request()->category_id && request()->filled('new_category')) {
+    //         // Create the new category
+    //         $category = Category::create([
+    //             'name' => request()->new_category,
+    //         ]);
 
-            // Use the new category's ID for the product
-            $category_id = $category->id;
-        }
-        Product::create([
-            'name' => request('name'),
-            'price' => request('price'),
-            'category_id' => $category_id,
-        ]);
-        return redirect('/products');
-    }
+    //         // Use the new category's ID for the product
+    //         $category_id = $category->id;
+    //     }
+    //     Product::create([
+    //         'name' => request('name'),
+    //         'price' => request('price'),
+    //         'category_id' => $category_id,
+    //     ]);
+    //     return redirect('/products');
+    // }
 
-    public function edit(Product $product)
-    {
-        if (Auth::guest()) {
-            return redirect('/login');
-        }
+    // public function edit(Product $product)
+    // {
+    //     if (Auth::guest()) {
+    //         return redirect('/login');
+    //     }
 
-        if (Auth::check() && Auth::user()->role === 'admin') {
-            return view('products.edit', ['product' => $product]);
-        }
-        return redirect('/');
-    }
+    //     if (Auth::check() && Auth::user()->role === 'admin') {
+    //         return view('products.edit', ['product' => $product]);
+    //     }
+    //     return redirect('/');
+    // }
 
-    public function update(Product $product)
-    {
-        // authorize
-        request()->validate([
-            'name' => ['required', 'max:255'],
-            'price' => ['required']
-        ]);
-        $product->update([
-            'name' => request('name'),
-            'price' => request('price')
-        ]);
-        return redirect('/products/' . $product->id);
-    }
+    // public function update(Product $product)
+    // {
+    //     // authorize
+    //     request()->validate([
+    //         'name' => ['required', 'max:255'],
+    //         'price' => ['required']
+    //     ]);
+    //     $product->update([
+    //         'name' => request('name'),
+    //         'price' => request('price')
+    //     ]);
+    //     return redirect('/admin/products/' . $product->id);
+    // }
 
-    public function delete(Product $product)
-    {
-        // authorize
-        $product->delete();
-        return redirect('/products');
-    }
+    // public function delete(Product $product)
+    // {
+    //     // authorize
+    //     $product->delete();
+    //     return redirect('/products');
+    // }
 }
